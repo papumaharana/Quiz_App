@@ -1,0 +1,97 @@
+/* #root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+} */
+
+
+.card {
+  padding: 2em;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.card {
+  width: 350px;
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.card h1 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.dropdown {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Forms */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form button {
+  padding: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  cursor: pointer;
+  background-color: #1d4ed8;
+}
+
+button{
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #1d4ed8;
+}
+
+li {
+  display: inline;
+  margin: 0 30px;
+  padding: 5px;
+  background-color: rgb(245, 244, 243);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+li:hover {
+  color: #cb8112;
+}
