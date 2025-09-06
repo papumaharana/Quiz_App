@@ -1,9 +1,3 @@
-// ✅ Now admin can:
-// Rename course
-// Delete course
-// View, add, edit, delete quizzes
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 

@@ -22,7 +22,7 @@ function OtpVerification({ onStudentLogin }) {
 
       if (data.success) {
         // Call parent handler
-        onStudentLogin(data);
+        onStudentLogin(data.student);
         navigate("/studentdashboard");
       } else {
         setError(data.message || "OTP verification failed!");

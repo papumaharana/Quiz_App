@@ -14,25 +14,31 @@ import './App.css'
 
 export default function App() {
   // use state to track login session
-  const [admin, setAdmin] = useState(() => sessionStorage.getItem("admin"));
-  const [student, setStudent] = useState(() => sessionStorage.getItem("student"));
+  const [admin, setAdmin] = useState(() => {
+    const storedAdmin = localStorage.getItem("admin");
+    return storedAdmin ? JSON.parse(storedAdmin) : null;
+  });
+  const [student, setStudent] = useState(() => {
+    const storedStudent = localStorage.getItem("student");
+    return storedStudent ? JSON.parse(storedStudent) : null;
+  });
 
   // helper to update state when login/logout occurs
   const handleAdminLogin = (adminData) => {
-    sessionStorage.setItem("admin", JSON.stringify(adminData)); // Admin stored in session
+    localStorage.setItem("admin", JSON.stringify(adminData)); // Admin stored in session
     setAdmin(adminData);
   };
   const handleStudentLogin = (studentData) => {
-    sessionStorage.setItem("student", JSON.stringify(studentData)); // Student stored in session
+    localStorage.setItem("student", JSON.stringify(studentData)); // Student stored in session
     setStudent(studentData);
   };
 
   const handleAdminLogout = () => {
-    sessionStorage.removeItem("admin"); //Admin log out
+    localStorage.removeItem("admin"); //Admin log out
     setAdmin(null);
   };
   const handleStudentLogout = () => {
-    sessionStorage.removeItem("student"); //Student log out
+    localStorage.removeItem("student"); //Student log out
     setStudent(null);
   };
 
@@ -45,7 +51,7 @@ export default function App() {
         {/* <Route path="/admin-login" element={admin ? <Navigate to="/dashboard" /> : <AdminLogin onAdminLogin={handleAdminLogin} />} /> */}
         <Route path="/dashboard" element={admin ? <Dashboard onAdminLogout={handleAdminLogout} /> : <Navigate to="/" />} />
         <Route path="/verify_otp" element={<OtpVerification onStudentLogin={handleStudentLogin}/>} />
-        <Route path="/studentdashboard" element={student ? <StudentDashboard onStudentLogout={handleStudentLogout} /> : <Navigate to="/" />} />
+        <Route path="/studentdashboard" element={student ? <StudentDashboard onStudentLogout={handleStudentLogout} student={student}/> : <Navigate to="/" />} />
 
         <Route path="/asign_student" element={admin ? <AssignStudentCourse /> : <Navigate to="/" />} />
         <Route path="/view_students" element={admin ? <AssignStudentCourse /> : <Navigate to="/" />} />
