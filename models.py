@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
@@ -8,14 +8,12 @@ engine = create_engine(url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-
-# Pythonic way to create table in db:
-# Association Table for Many-to-Many: Students <-> Courses
+# Association Table Students <-> Courses
 student_course = Table(
     "student_course",
     Base.metadata,
     Column("student_id", Integer, ForeignKey("students.id"), primary_key=True),
-    Column("course_id", Integer, ForeignKey("courses.id"), primary_key=True)
+    Column("course_id", Integer, ForeignKey("courses.id"), primary_key=True),
 )
 
 class Student(Base):
@@ -26,10 +24,10 @@ class Student(Base):
     email = Column(String(100), unique=True, nullable=False)
     otp = Column(String(100), nullable=True)
     otp_expiry = Column(DateTime(timezone=True), nullable=True)
+    score = Column(Float, default=0.0)  # percentage score
 
-    # Many-to-Many with Courses
     courses = relationship("Course", secondary=student_course, back_populates="students")
-
+    attendances = relationship("AttendAndAnswer", back_populates="student")
 
 class Course(Base):
     __tablename__ = "courses"
@@ -37,12 +35,9 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), unique=True, nullable=False)
 
-    # Many-to-Many with Students
     students = relationship("Student", secondary=student_course, back_populates="courses")
-
-    # One-to-Many with Quizzes
     quizzes = relationship("Quiz", back_populates="course")
-
+    answers = relationship("AttendAndAnswer", back_populates="course")
 
 class Quiz(Base):
     __tablename__ = "quizzes"
@@ -57,6 +52,22 @@ class Quiz(Base):
 
     course_id = Column(Integer, ForeignKey("courses.id"))
     course = relationship("Course", back_populates="quizzes")
+    answers = relationship("AttendAndAnswer", back_populates="quiz")
+
+class AttendAndAnswer(Base):
+    __tablename__ = "attend_and_answer"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"))
+    quiz_id = Column(Integer, ForeignKey("quizzes.id"))
+    course_id = Column(Integer, ForeignKey("courses.id"))
+    answered_option = Column(String(100), nullable=False)
+    correct_option = Column(String(100), nullable=False)
+
+    student = relationship("Student", back_populates="attendances")
+    quiz = relationship("Quiz", back_populates="answers")
+    course = relationship("Course", back_populates="answers")
+
 
 class Admin(Base):
     __tablename__ = "admin"

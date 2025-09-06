@@ -4,17 +4,16 @@ import axios from "axios";
 
 function StudentDashboard({ onStudentLogout, student: studentProp }) {
   const navigate = useNavigate();
+  const [courses, setCourses] = useState([]);
+  const [attempts, setAttempts] = useState({});
+  const [scores, setScores] = useState({});
+  const [error, setError] = useState("");
 
   const [student, setStudent] = useState(() => {
-    // Restore from localStorage if available
     const savedStudent = localStorage.getItem("student");
     return savedStudent ? JSON.parse(savedStudent) : studentProp || null;
   });
 
-  const [courses, setCourses] = useState([]);
-  const [error, setError] = useState("");
-
-  // Save new student prop (from login) to localStorage
   useEffect(() => {
     if (studentProp) {
       localStorage.setItem("student", JSON.stringify(studentProp));
@@ -22,16 +21,38 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
     }
   }, [studentProp]);
 
-  // Fetch student courses
   useEffect(() => {
-    if (!student || !student.id) return; // prevent /undefined call
+    if (!student || !student.id) return;
 
     const fetchData = async () => {
       try {
         const coursesRes = await axios.get(
           `http://localhost:8000/student_courses/${student.id}`
         );
-        setCourses(coursesRes.data);
+
+        if (Array.isArray(coursesRes.data)) {
+          setCourses(coursesRes.data);
+
+          const attemptStatus = {};
+          const scoreStatus = {}
+
+          for (let course of coursesRes.data) {
+            const attemptRes = await axios.get(
+              `http://localhost:8000/check_attempt/${student.id}/${course.id}`
+            );
+            attemptStatus[course.id] = attemptRes.data.attempted;
+
+            const scoreRes = await axios.get(
+              `http://localhost:8000/student_score/${student.id}/${course.id}`
+            );
+            scoreStatus[course.id] = scoreRes.data.score;
+          }
+
+          setAttempts(attemptStatus);
+          setScores(scoreStatus);
+        } else {
+          setError(coursesRes.data.message || "No courses found");
+        }
       } catch (err) {
         setError("Error loading data: " + err.message);
       }
@@ -43,13 +64,12 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
   const handleLogout = () => {
     onStudentLogout();
     localStorage.removeItem("student");
-    navigate("/"); // Redirect to login
+    navigate("/");
   };
 
-  // Redirect to login if no student found
   useEffect(() => {
     if (!student) {
-      navigate("/"); 
+      navigate("/");
     }
   }, [student, navigate]);
 
@@ -58,7 +78,7 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
   }
 
   return (
-    <>{console.log("hii",localStorage.getItem("student"))}
+    <>
       <h2>Hii {student.name}!</h2>
       <nav className="navbar">
         <h1 className="logo">Student Dashboard</h1>
@@ -73,13 +93,33 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
         <table>
           <thead>
             <tr>
-              <th>Course title</th>
+              <th>Course Title</th>
+              <th>Quiz</th>
+              <th>Score</th>
             </tr>
           </thead>
           <tbody>
             {courses.map((course) => (
               <tr key={course.id}>
-                <td>{course.title}</td> 
+                <td>{course.title}</td>
+                <td>
+                  <button
+                    onClick={() => navigate(`/attend_quiz/${course.id}`)}
+                    disabled={attempts[course.id]}
+                    style={{
+                      backgroundColor: attempts[course.id] ? "gray" : "blue",
+                      color: "white",
+                      cursor: attempts[course.id] ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {attempts[course.id] ? "Attempted" : "Attend Quiz"}
+                  </button>
+                </td>
+                <td>
+                  {scores[course.id] !== null && scores[course.id] !== undefined
+                    ? `${scores[course.id]}%`
+                    : "-"}
+                </td>
               </tr>
             ))}
           </tbody>

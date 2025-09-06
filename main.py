@@ -1,5 +1,5 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Body
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -35,7 +35,7 @@ app = FastAPI(lifespan=lifespan)
 # CORS so frontend (React) can talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # React dev server
+    allow_origins=["http://localhost:5174"],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,10 +71,10 @@ def login_admin(admin: AdminLogin, db: Session = Depends(get_db)):
         "email": db_admin.email
     }
 
-
+# Send Otp:
 @app.post("/sent_otp/")
 def send_otp(student: StudentLogin, db: Session = Depends(get_db)):
-    db_student = db.query(Student).filter(Student.email == student.email).first()
+    db_student = db.query(Student).filter_by(email=student.email).first()
 
     otp = str(randint(100000, 999999))  # 6-digit OTP
     expiry_time = datetime.now(timezone.utc) + timedelta(minutes=3)
@@ -99,10 +99,10 @@ def send_otp(student: StudentLogin, db: Session = Depends(get_db)):
     return {"success": True, "message": "OTP sent successfully!"}
 
 
-
+# Verify OTP:
 @app.post("/verify_otp/")
 def verify_otp(data: VerifyOtp, db: Session = Depends(get_db)):
-    student = db.query(Student).filter(Student.email == data.email).first()
+    student = db.query(Student).filter_by(otp=data.otp).first()
 
     if not student or not student.otp or not student.otp_expiry:
         return {"success": False, "message": "OTP not found. Please request again."}
@@ -129,7 +129,7 @@ def verify_otp(data: VerifyOtp, db: Session = Depends(get_db)):
         "student": {"id": student.id, "name": student.name, "email": student.email}
         }
 
-
+# Get all students and courses:
 @app.get("/students/")
 def get_students(db: Session = Depends(get_db)):
     return db.query(Student).all()
@@ -137,6 +137,7 @@ def get_students(db: Session = Depends(get_db)):
 @app.get("/courses/")
 def get_courses(db: Session = Depends(get_db)):
     return db.query(Course).all()
+
 
 # Creating courses :
 @app.post("/create_course")
@@ -304,3 +305,88 @@ def delete_quiz(quiz_id: int, db: Session = Depends(get_db)):
     db.delete(quiz)
     db.commit()
     return {"message": "Quiz deleted"}
+
+# Get all Courses for perticular student:
+@app.get("/student_courses/{student_id}")
+def get_student_courses(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        return {"message": "Student not found"}
+
+    if not student.courses:
+        return {"message": "No courses assigned"}
+
+    return student.courses
+
+
+
+# ----------Attend quiz and submit answers------------ :
+
+
+@app.get("/student_courses/{student_id}")
+def get_student_courses(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        return {"message": "Student not found"}
+    return [{"id": c.id, "title": c.title} for c in student.courses]
+
+
+@app.get("/check_attempt/{student_id}/{course_id}")
+def check_attempt(student_id: int, course_id: int, db: Session = Depends(get_db)):
+    attempt = db.query(AttendAndAnswer).filter(
+        AttendAndAnswer.student_id == student_id,
+        AttendAndAnswer.course_id == course_id
+    ).first()
+    return {"attempted": bool(attempt)}
+
+
+@app.get("/course/{course_id}/quizzes")
+def get_quizzes(course_id: int, db: Session = Depends(get_db)):
+    quizzes = db.query(Quiz).filter(Quiz.course_id == course_id).all()
+    return [
+        {
+            "id": q.id,
+            "title": q.title,
+            "option_1": q.option_1,
+            "option_2": q.option_2,
+            "option_3": q.option_3,
+            "option_4": q.option_4,
+        }
+        for q in quizzes
+    ]
+
+
+@app.post("/submit_answer/{student_id}/{course_id}/{quiz_id}")
+def submit_answer(student_id: int, course_id: int, quiz_id: int, data: dict = Body(...), db: Session = Depends(get_db)):
+    answered_option = data.get("answered_option")
+
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id, Quiz.course_id == course_id).first()
+    if not quiz:
+        return {"message": "Quiz not found"}
+
+    attend = AttendAndAnswer(
+        student_id=student_id,
+        course_id=course_id,
+        quiz_id=quiz_id,
+        answered_option=answered_option,
+        correct_option=quiz.answer,
+    )
+    db.add(attend)
+    db.commit()
+    return {"message": "Answer saved"}
+
+
+@app.get("/student_score/{student_id}/{course_id}")
+def get_student_score(student_id: int, course_id: int, db: Session = Depends(get_db)):
+    answers = db.query(AttendAndAnswer).filter(
+        AttendAndAnswer.student_id == student_id,
+        AttendAndAnswer.course_id == course_id
+    ).all()
+
+    if not answers:
+        return {"score": None}
+
+    total = len(answers)
+    correct = sum(1 for ans in answers if ans.answered_option == ans.correct_option)
+    percentage = round((correct / total) * 100, 2)
+    return {"score": percentage}

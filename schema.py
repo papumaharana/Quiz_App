@@ -18,7 +18,7 @@ class CourseBase(BaseModel):
     title: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 
@@ -39,5 +39,20 @@ class StudentLogin(BaseModel):
     email: EmailStr
 
 class VerifyOtp(BaseModel):
-    email: str
     otp: str
+
+
+class CourseOut(BaseModel):
+    id: int
+    title: str
+
+    class Config:
+        from_attributes = True
+
+
+# ---------Attend and Answer Schema---------:
+
+class AnswerPayload(BaseModel):
+    student_id: int
+    quiz_id: int
+    answered_option: str

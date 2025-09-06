@@ -12,6 +12,7 @@ function Studentlogin( ){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setError("Sending OTP...");
         try {
             const response = await fetch("http://127.0.0.1:8000/sent_otp/", {
                 method: "POST",

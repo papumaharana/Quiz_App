@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function OtpVerification({ onStudentLogin }) {
-  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -11,14 +11,11 @@ function OtpVerification({ onStudentLogin }) {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/verify_otp/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-        credentials: "include"
+      const response = await axios.post("http://127.0.0.1:8000/verify_otp/", {
+        otp: otp,
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (data.success) {
         // Call parent handler
@@ -37,13 +34,6 @@ function OtpVerification({ onStudentLogin }) {
       <h2>Otp Verification</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
         <input
           type="number"
           placeholder="OTP"
