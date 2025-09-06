@@ -25,6 +25,12 @@ function Dashboard({ onAdminLogout }) {
   const handleStudentCourse = () => {
     navigate("/student_course_list");
   };
+  const handleQuiz = () => {
+    navigate("/create_quiz");
+  };
+  const handleCourseQuizManager = () => {
+    navigate("/course_quiz_manager");
+  };
 
 
 
@@ -36,7 +42,8 @@ function Dashboard({ onAdminLogout }) {
           <li onClick={handleCourses}>Create courses</li>
           <li onClick={handleStudent}>Assign student with courses</li>
           <li onClick={handleStudentCourse}>Students Course List</li>
-          <li>Create quizzes</li>
+          <li onClick={handleQuiz}>Create quizzes</li>
+          <li onClick={handleCourseQuizManager}>Manage course and quiz</li>
           <li onClick={handleLogout}>Logout</li>
         </ul>
       </nav>

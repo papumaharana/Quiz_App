@@ -9,9 +9,18 @@ class QuizCreate(BaseModel):
     option_4: str
     answer: str
 
-class CourseCreate(BaseModel):
+class QuizPayload(BaseModel):
+    course_id: int
+    quizzes: List[QuizCreate]
+
+class CourseBase(BaseModel):
+    id: int
     title: str
-    quizzes: List[QuizCreate]   # List of quizzes with options
+
+    class Config:
+        orm_mode = True
+
+
 
 class CreateCourse(BaseModel):
     course:str

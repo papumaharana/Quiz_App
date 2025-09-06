@@ -1,35 +1,5 @@
-# Dummy session (use Redis/DB in production)
-# sessions = {}
 
-# @app.post("/login")
-# def login(userId: str = Form(...), password: str = Form(...), response: Response = None):
-#     conn = get_db()
-#     cursor = conn.cursor(dictionary=True)
-#     cursor.execute("SELECT * FROM admins WHERE user_id=%s AND password=%s", (userId, password))
-#     admin = cursor.fetchone()
-#     cursor.close()
-#     conn.close()
 
-#     if admin:
-#         sessions[userId] = True
-#         response.set_cookie(key="session", value=userId)  # simple session
-#         return {"message": "Login successful"}
-#     return {"message": "Invalid credentials"}, 401
-
-# @app.get("/check-session")
-# def check_session(request: Request):
-#     session_id = request.cookies.get("session")
-#     if session_id and sessions.get(session_id):
-#         return {"logged_in": True}
-#     return {"logged_in": False}
-
-# @app.post("/logout")
-# def logout(request: Request, response: Response):
-#     session_id = request.cookies.get("session")
-#     if session_id in sessions:
-#         del sessions[session_id]
-#     response.delete_cookie("session")
-#     return {"message": "Logged out"}
 
 
 # from datetime import datetime, timedelta, UTC

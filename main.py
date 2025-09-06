@@ -171,33 +171,6 @@ def assign_course(data: AssignCourse, db: Session = Depends(get_db)):
     return {"message": f"Student {student.name} assigned to course {course.title}"}
 
 
-# Added course with quizzes:
-# @app.post("/courses")
-# def create_course(course: CourseCreate, db: Session = Depends(get_db)):
-#     # Create course
-#     new_course = Course(title=course.title)
-#     db.add(new_course)
-#     db.commit()
-#     db.refresh(new_course)
-
-#     # Create quizzes for this course
-#     for q in course.quizzes:
-#         quiz = Quiz(
-#             title=q.title,
-#             option_1=q.option_1,
-#             option_2=q.option_2,
-#             option_3=q.option_3,
-#             option_4=q.option_4,
-#             answer=q.answer,
-#             course_id=new_course.id
-#         )
-#         db.add(quiz)
-
-#     db.commit()
-#     return {
-#         "message": f"Course '{new_course.title}' created with {len(course.quizzes)} quizzes"
-#     }
-
 
 # Get students with there courses:
 @app.get("/students-with-courses/")
@@ -229,3 +202,105 @@ def unassign_course(student_id: int, course_id: int, db: Session = Depends(get_d
     else:
         raise HTTPException(status_code=400, detail="Course not assigned to this student")
 
+# Create quizzes:
+@app.post("/courses/{course_id}/quizzes")
+def add_quizzes(course_id: int, payload: QuizPayload, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        return {"message": "Course not found"}
+
+    for quiz in payload.quizzes:
+        new_quiz = Quiz(
+            title=quiz.title,
+            option_1=quiz.option_1,
+            option_2=quiz.option_2,
+            option_3=quiz.option_3,
+            option_4=quiz.option_4,
+            answer=quiz.answer,
+            course_id=course_id,
+        )
+        db.add(new_quiz)
+
+    db.commit()
+    return {"message": f"{len(payload.quizzes)} quizzez added to {course.title}"}
+
+@app.get("/courses/{course_id}/quizzes/")
+def get_course_quizzes(course_id: int, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        return {"message": "Course not found"}
+    return {"id": course.id, "title": course.title, "quizzes": course.quizzes}
+
+
+@app.put("/courses/{course_id}/")
+def update_course(course_id: int, data: dict, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        return {"message": "Course not found"}
+    if course.title == data.get("title", course.title):
+        return {"message": "Course already exits"}
+    course.title = data.get("title", course.title)
+    db.commit()
+    db.refresh(course)
+    return {"message": "Course updated."}
+
+
+@app.delete("/courses/{course_id}/")
+def delete_course(course_id: int, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        return {"message": "Course not found"}
+    db.delete(course)
+    db.commit()
+    return {"message": "Course deleted"}
+
+
+# ---------- QUIZ ROUTES ----------
+# @app.post("/courses/{course_id}/quizzes/")
+# def add_quiz(course_id: int, data: dict, db: Session = Depends(get_db)):
+#     course = db.query(Course).filter(Course.id == course_id).first()
+#     if not course:
+#         raise HTTPException(status_code=404, detail="Course not found")
+
+#     quiz = Quiz(
+#         title=data["title"],
+#         option_1=data["option_1"],
+#         option_2=data["option_2"],
+#         option_3=data["option_3"],
+#         option_4=data["option_4"],
+#         answer=data["answer"],
+#         course_id=course_id,
+#     )
+#     db.add(quiz)
+#     db.commit()
+#     db.refresh(quiz)
+#     return quiz
+
+
+@app.put("/quizzes/{quiz_id}/")
+def update_quiz(quiz_id: int, data: dict, db: Session = Depends(get_db)):
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+
+    quiz.title = data.get("title", quiz.title)
+    quiz.option_1 = data.get("option_1", quiz.option_1)
+    quiz.option_2 = data.get("option_2", quiz.option_2)
+    quiz.option_3 = data.get("option_3", quiz.option_3)
+    quiz.option_4 = data.get("option_4", quiz.option_4)
+    quiz.answer = data.get("answer", quiz.answer)
+
+    db.commit()
+    db.refresh(quiz)
+    return quiz
+
+
+@app.delete("/quizzes/{quiz_id}/")
+def delete_quiz(quiz_id: int, db: Session = Depends(get_db)):
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    if not quiz:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    db.delete(quiz)
+    db.commit()
+    return {"message": "Quiz deleted"}
