@@ -7,6 +7,7 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
   const [courses, setCourses] = useState([]);
   const [attempts, setAttempts] = useState({});
   const [scores, setScores] = useState({});
+  const [totalScore, setTotalScore] = useState(0);
   const [error, setError] = useState("");
 
   const [student, setStudent] = useState(() => {
@@ -50,6 +51,13 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
 
           setAttempts(attemptStatus);
           setScores(scoreStatus);
+
+          // TotalScore calculation:
+          const scoreRes = await axios.get(
+          `http://localhost:8000/total_score/${student.id}`
+        );
+        setTotalScore(scoreRes.data.total_score || 0);
+
         } else {
           setError(coursesRes.data.message || "No courses found");
         }
@@ -124,6 +132,9 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
             ))}
           </tbody>
         </table>
+        {totalScore > 0 && (
+          <h3 style={{ marginTop: '20px' }}>Total Score Across All Courses: {totalScore}%</h3>
+        )}
       </div>
     </>
   );

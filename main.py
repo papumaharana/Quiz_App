@@ -35,7 +35,7 @@ app = FastAPI(lifespan=lifespan)
 # CORS so frontend (React) can talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],  # React dev server
+    allow_origins=["*"],  # or ["http://localhost:3000"] for security
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -130,11 +130,11 @@ def verify_otp(data: VerifyOtp, db: Session = Depends(get_db)):
         }
 
 # Get all students and courses:
-@app.get("/students/")
+@app.get("/students")
 def get_students(db: Session = Depends(get_db)):
     return db.query(Student).all()
 
-@app.get("/courses/")
+@app.get("/courses")
 def get_courses(db: Session = Depends(get_db)):
     return db.query(Course).all()
 
@@ -360,6 +360,14 @@ def get_quizzes(course_id: int, db: Session = Depends(get_db)):
 def submit_answer(student_id: int, course_id: int, quiz_id: int, data: dict = Body(...), db: Session = Depends(get_db)):
     answered_option = data.get("answered_option")
 
+    record_quiz = db.query(AttendAndAnswer).filter(
+        AttendAndAnswer.student_id == student_id,
+        AttendAndAnswer.course_id == course_id,
+        AttendAndAnswer.quiz_id == quiz_id
+    ).first()
+    if record_quiz:
+        return {"message": "You have already answered this quiz"}
+    
     quiz = db.query(Quiz).filter(Quiz.id == quiz_id, Quiz.course_id == course_id).first()
     if not quiz:
         return {"message": "Quiz not found"}
@@ -390,3 +398,23 @@ def get_student_score(student_id: int, course_id: int, db: Session = Depends(get
     correct = sum(1 for ans in answers if ans.answered_option == ans.correct_option)
     percentage = round((correct / total) * 100, 2)
     return {"score": percentage}
+
+@app.get("/total_score/{student_id}")
+def get_total_score(student_id: int, db: Session = Depends(get_db)):
+    student_answers = db.query(AttendAndAnswer).filter_by(student_id=student_id).all()
+    db_student = db.query(Student).filter_by(id=student_id).first()
+
+    if not student_answers:
+        return {"message":"Attempts not found"}
+
+    total_attempts = len(student_answers)
+    total_score = 0
+    for answer in student_answers:
+        if answer.answered_option == answer.correct_option:
+            total_score += 1
+
+    total_score = (total_score / total_attempts) * 100 if total_attempts > 0 else 0
+
+    db_student.score = total_score
+    db.commit()
+    return {"total_score": round(total_score, 2)}

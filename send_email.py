@@ -9,7 +9,7 @@ def send_email_smtp(to_email, otp):
     msg = MIMEMultipart()
     msg["From"] = sender_email
     msg["To"] = to_email
-    msg["Subject"] = "Reset Your Password."
+    msg["Subject"] = "OTP for Quiz App"
 
     body = f"Do not share this OTP - {otp} - valid for 3 minutes."
     msg.attach(MIMEText(body, "plain"))
