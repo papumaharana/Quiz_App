@@ -24,7 +24,7 @@ function CreateCourse() {
   };
 
   return (
-    <div className="container">
+    <div className="create_course_container">
       <div className="card">
         <h2>Add Courses</h2>
         {/* {message && <p style={{ color: "green" }}>{message}</p>} */}

@@ -4,7 +4,6 @@ import CreateCourse from "./CreateCourse";
 import AssignStudentCourse from "./AsignStudent";
 import StudentCourseList from "./StudentCourseList";
 import StudentScores from "./StudentScores";
-import "./css/Dashboard.css";
 
 function Dashboard({ onAdminLogout }) {
   const navigate = useNavigate();
@@ -55,33 +54,30 @@ function Dashboard({ onAdminLogout }) {
 
 
   return (
-    <div className="dashboard">
+    <div className="admin_dashboard">
       <nav className="navbar">
         <h1 className="logo">Admin</h1>
         <ul className="nav-links">
           <li onClick={handleCourses}>Create courses</li>
-          <li onClick={handleStudent}>Assign student with courses</li>
-          <li onClick={handleStudentCourse}>Students Course List</li>
           <li onClick={handleQuiz}>Create quizzes</li>
+          <li onClick={handleStudent}>Assign student</li>
           <li onClick={handleCourseQuizManager}>Manage course and quiz</li>
+          <li onClick={handleStudentCourse}>Students List</li>
           <li onClick={handleStudentScore}>Student Scores</li>
           <li onClick={handleLogout}>Logout</li>
         </ul>
       </nav>
-      <div className="dashboard-content">
+      <div className="admin_dashboard-content">
         <h2>Welcome, Admin!</h2>
         <p>Select an option from the menu to get started.</p>
+
+
+          {createCourse && <CreateCourse />}
+          {assignStudentCourse && <AssignStudentCourse />}
+          {studentCourseList && <StudentCourseList />}
+          {studentScores && <StudentScores />}
+
       </div>
-
-
-
-      <div className="container">
-        {createCourse && <CreateCourse />}
-        {assignStudentCourse && <AssignStudentCourse />} 
-        {studentCourseList && <StudentCourseList />} 
-        {studentScores && <StudentScores />} 
-      </div>
-
     </div>
   );
 }

@@ -30,19 +30,15 @@ function OtpVerification({ onStudentLogin }) {
   };
 
   return (
-    <div className="card">
-      <h2>Otp Verification</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="number"
-          placeholder="OTP"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          required
-        />
-        <button type="submit">Verify Otp</button>
-      </form>
+    <div className="otp_container">
+      <div className="otp_card">
+        <h2>Otp Verification</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <form className="form" onSubmit={handleSubmit}>
+          <input type="number" placeholder="OTP" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+          <button type="submit">Verify Otp</button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -77,13 +77,13 @@ function AttendQuiz() {
     const currentQuiz = quizzes[currentIndex];
 
     return (
-        <div>
+        <div className="quiz_container">
             <h2>
                 Quiz {currentIndex + 1} of {quizzes.length}
             </h2>
-            <h3>{currentQuiz.title}</h3>
+            <h3>{currentIndex + 1}. {currentQuiz.title}</h3>
 
-            <div>
+            <div className="options_container">
                 {[currentQuiz.option_1, currentQuiz.option_2, currentQuiz.option_3, currentQuiz.option_4].map(
                     (opt, idx) => (
                         <div key={idx}>

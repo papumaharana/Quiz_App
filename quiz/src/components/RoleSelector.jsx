@@ -6,7 +6,7 @@ function RoleSelector({ onAdminLogin }) {
   const [role, setRole] = useState("");
 
   return (
-    <div className="container">
+    <div className="role_container">
       {role === "" && (
         <div className="card">
           <h1>Select Role</h1>

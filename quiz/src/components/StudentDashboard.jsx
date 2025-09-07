@@ -87,16 +87,18 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
 
   return (
     <>
-      <h2>Hii {student.name}!</h2>
       <nav className="navbar">
-        <h1 className="logo">Student Dashboard</h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className="logo">Student Dashboard</div>
         <ul className="nav-links">
           <li onClick={handleLogout}>Logout</li>
         </ul>
       </nav>
-
-      <div>
+      <div className="student_name">
+        <h2>:--------- Welcome {student.name} ---------:</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
+      
+      <div className="student_dashboard-content">
         <h3>Your Courses:</h3>
         <table>
           <thead>
@@ -111,6 +113,11 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
               <tr key={course.id}>
                 <td>{course.title}</td>
                 <td>
+                  {scores[course.id] !== null && scores[course.id] !== undefined
+                    ? `${scores[course.id]}%`
+                    : "-"}
+                </td>
+                <td>
                   <button
                     onClick={() => navigate(`/attend_quiz/${course.id}`)}
                     disabled={attempts[course.id]}
@@ -123,17 +130,13 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
                     {attempts[course.id] ? "Attempted" : "Attend Quiz"}
                   </button>
                 </td>
-                <td>
-                  {scores[course.id] !== null && scores[course.id] !== undefined
-                    ? `${scores[course.id]}%`
-                    : "-"}
-                </td>
+                
               </tr>
             ))}
           </tbody>
         </table>
         {totalScore > 0 && (
-          <h3 style={{ marginTop: '20px' }}>Total Score Across All Courses: {totalScore}%</h3>
+          <h3 style={{ marginTop: '20px' }}>Total Score : {totalScore}%</h3>
         )}
       </div>
     </>

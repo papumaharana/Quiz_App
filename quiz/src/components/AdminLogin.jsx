@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./css/AdminLogin.css";
+
 
 function AdminLogin({ onAdminLogin }) {
   const [email, setEmail] = useState("");
@@ -32,7 +32,7 @@ function AdminLogin({ onAdminLogin }) {
   };
 
   return (
-        <div className="card">
+        <div className="admin_login_card">
           <h2>Admin Login</h2>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <form className="form" onSubmit={handleSubmit}>

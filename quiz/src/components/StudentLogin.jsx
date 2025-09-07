@@ -34,7 +34,7 @@ function Studentlogin( ){
         }
   };
     return <>
-        <div className="card">
+        <div className="student_login_card">
           <h2>Student Form</h2>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <form className="form" onSubmit={handleSubmit}>

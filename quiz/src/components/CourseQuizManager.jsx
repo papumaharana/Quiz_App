@@ -11,15 +11,6 @@ export default function CourseQuizManager() {
   const [error, setError] = useState("");
 
 
-  // const [newQuiz, setNewQuiz] = useState({
-  //   title: "",
-  //   option_1: "",
-  //   option_2: "",
-  //   option_3: "",
-  //   option_4: "",
-  //   answer: "",
-  // });
-
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -107,16 +98,6 @@ export default function CourseQuizManager() {
     }
   };
 
-  // const handleAddQuiz = async () => {
-  //   try {
-  //     await axios.post(`http://localhost:8000/courses/${selectedCourse.id}/quizzes/`, newQuiz);
-  //     alert("Quiz added");
-  //     setNewQuiz({ title: "", option_1: "", option_2: "", option_3: "", option_4: "", answer: "" });
-  //     viewCourse(selectedCourse.id);
-  //   } catch (err) {
-  //     console.error("Error adding quiz", err);
-  //   }
-  // };
 
   return (
     <div className="admin-course-manager">
@@ -127,15 +108,15 @@ export default function CourseQuizManager() {
       <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
         <thead>
           <tr>
-            <th>ID</th>
+            <th></th>
             <th>Course Title</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {courses.map((course) => (
+          {courses.map((course, index) => (
             <tr key={course.id}>
-              <td>{course.id}</td>
+              <td>{index+1}</td>
               <td>
                 {editingCourse && editingCourse.id === course.id ? (
                   <input
@@ -159,7 +140,7 @@ export default function CourseQuizManager() {
                     <button onClick={() => handleEditCourse(course)}>Edit</button>
                     <button
                       onClick={() => handleDeleteCourse(course.id)}
-                      style={{ color: "red" }}
+                      style={{ color: "white" }}
                     >
                       Delete
                     </button>
@@ -178,7 +159,7 @@ export default function CourseQuizManager() {
           <table border="1" cellPadding="8">
             <thead>
               <tr>
-                <th>ID</th>
+                <th></th>
                 <th>Question</th>
                 <th>Options</th>
                 <th>Answer</th>
@@ -186,11 +167,11 @@ export default function CourseQuizManager() {
               </tr>
             </thead>
             <tbody>
-              {selectedCourse.quizzes.map((quiz) => (
+              {selectedCourse.quizzes.map((quiz, index) => (
                 <tr key={quiz.id}>
                   {editingQuiz && editingQuiz.id === quiz.id ? (
                     <>
-                      <td>{quiz.id}</td>
+                      <td>{index+1}</td>
                       <td>
                         <input
                           type="text"
@@ -256,7 +237,7 @@ export default function CourseQuizManager() {
                         <button onClick={() => handleEditQuiz(quiz)}>Edit</button>
                         <button
                           onClick={() => handleDeleteQuiz(quiz.id)}
-                          style={{ color: "red" }}
+                          style={{ color: "white" }}
                         >
                           Delete
                         </button>
@@ -268,47 +249,6 @@ export default function CourseQuizManager() {
             </tbody>
           </table>
 
-          {/* Add New Quiz */}
-          {/* <h4>Add New Quiz</h4>
-          <div>
-            <input
-              type="text"
-              placeholder="Question"
-              value={newQuiz.title}
-              onChange={(e) => setNewQuiz({ ...newQuiz, title: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Option 1"
-              value={newQuiz.option_1}
-              onChange={(e) => setNewQuiz({ ...newQuiz, option_1: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Option 2"
-              value={newQuiz.option_2}
-              onChange={(e) => setNewQuiz({ ...newQuiz, option_2: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Option 3"
-              value={newQuiz.option_3}
-              onChange={(e) => setNewQuiz({ ...newQuiz, option_3: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Option 4"
-              value={newQuiz.option_4}
-              onChange={(e) => setNewQuiz({ ...newQuiz, option_4: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Answer"
-              value={newQuiz.answer}
-              onChange={(e) => setNewQuiz({ ...newQuiz, answer: e.target.value })}
-            />
-            <button onClick={handleAddQuiz}>Add Quiz</button>
-          </div> */}
         </div>
       )}
     </div>

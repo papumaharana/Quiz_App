@@ -59,7 +59,7 @@ export default function CreateQuiz() {
     };
 
     return (
-        <div className="admin-form">
+        <div className="create_quiz_container">
             <h2>Create Quiz for a Course</h2>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <form onSubmit={handleSubmit}>

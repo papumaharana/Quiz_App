@@ -3,26 +3,21 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #2c3e50, #3498db);
 }
 
 #root {
   max-width: 100%;
 }
 
-
-/* .card {
-  padding: 2em;
-}
-
-.container {
+/* Role selector styles */
+.role_container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 70vh;
 }
 
-.card {
+.role_container .card {
   width: 350px;
   padding: 20px;
   border-radius: 12px;
@@ -31,12 +26,12 @@ body {
   text-align: center;
 }
 
-.card h1 {
+.role_container h1 {
   font-size: 20px;
   margin-bottom: 15px;
 }
 
-.dropdown {
+.role_container .dropdown {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
@@ -44,20 +39,30 @@ body {
   border-radius: 6px;
 }
 
+/* Stusent Login form */
+.student_login_card {
+  width: 350px;
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
 
-.form {
+
+.student_login_card .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.form input {
+.student_login_card input {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
 
-.form button {
+.student_login_card button {
   padding: 10px;
   border: none;
   background-color: #2563eb;
@@ -67,36 +72,825 @@ body {
   cursor: pointer;
 }
 
-.form button:hover {
+.student_login_card button:hover {
   cursor: pointer;
   background-color: #1d4ed8;
 }
 
-button{
+
+/*-------------- Admin login form ----------------*/
+.admin_login_card {
+  width: 350px;
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+
+.admin_login_card .form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin_login_card input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.admin_login_card button {
   padding: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.admin_login_card button:hover {
+  cursor: pointer;
+  background-color: #1d4ed8;
+}
+
+
+/*------------------ Otp Verification form -------------------*/
+.otp_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.otp_card {
+  width: 350px;
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.otp_card h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.otp_card .form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.otp_card input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.otp_card button {
+  padding: 10px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.otp_card button:hover {
+  cursor: pointer;
+  background-color: #1d4ed8;
+}
+
+/*-------------------- Navbar ----------------------*/
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  padding: 8px 25px;
+  color: white;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Nav links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.nav-links li:hover {
+  background: #34495e;
+  color: #f1c40f;
+}
+
+/*---------------------- Student dashboard------------------*/
+.student_name{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+/* Main container */
+.student_dashboard-content {
+  padding: 30px 200px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+/* Heading */
+.student_dashboard-content h3 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 1.3rem;
+}
+
+/* Table styling */
+.student_dashboard-content table {
   width: 100%;
-  border: none;
-  background-color: #2563eb;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.student_dashboard-content th,
+.student_dashboard-content td {
+  text-align: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.student_dashboard-content th {
+  background: #50657b;
   color: white;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.student_dashboard-content tr:hover {
+  background: #f1f7ff;
+}
+
+/* Button styling */
+.student_dashboard-content button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Normal button */
+.student_dashboard-content button:not([disabled]) {
+  background: #3498db;
+  color: white;
+}
+
+.student_dashboard-content button:not([disabled]):hover {
+  background: #2980b9;
+}
+
+/* Disabled button */
+.student_dashboard-content button:disabled {
+  background: gray !important;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Total score */
+.student_dashboard-content h3:last-of-type {
+  margin-top: 25px;
+  font-size: 1.2rem;
+  color: #27ae60;
+  text-align: center;
+}
+
+/*------------------- Attending Quiz Container -------------*/
+.quiz_container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Headings */
+.quiz_container h2 {
+  font-size: 1.4rem;
+  color: white;
+  margin-bottom: 10px;
+  background-color: #34495e;
+}
+
+.quiz_container h3 {
+  font-size: 1.2rem;
+  color: #34495e;
+  margin-bottom: 20px;
+}
+
+/* Options */
+.options_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  gap: 12px;
+}
+
+.options_container label {
+  font-size: 1rem;
+  color: #2c3e50;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Custom radio buttons */
+.options_container input[type="radio"] {
+  accent-color: #3498db; /* modern browsers */
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* Next/Finish button */
+.quiz_container button {
+  padding: 12px 20px;
+  background: #3498db;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-button:hover {
+.quiz_container button:hover {
+  background: #2980b9;
+}
+
+/* Disabled state (if you add later) */
+.quiz_container button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+
+
+/*-------------------- Admin Dashboard --------------------*/
+/* Main admin content area */
+.admin_dashboard-content {
+  padding: 40px;
+  margin: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.admin_dashboard-content h2 {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Subtext */
+.admin_dashboard-content p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+
+/*---------------- Create Course Container ---------------*/
+/* Wrapper */
+.create_course_container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+/* Card */
+.create_course_container .card {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading */
+.create_course_container .card h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 1.4rem;
+}
+
+/* Messages */
+.create_course_container .card p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+/* Form */
+.create_course_container .form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Input */
+.create_course_container .form input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.create_course_container .form input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.3);
+}
+
+/* Button */
+.create_course_container .form button {
+  padding: 12px 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  background-color: #1d4ed8;
+  transition: background 0.3s;
 }
 
-li {
-  display: inline;
-  margin: 0 30px;
-  padding: 5px;
-  background-color: rgb(245, 244, 243);
-  border-radius: 5px;
+.create_course_container .form button:hover {
+  background: #2980b9;
+}
+
+/*---------------- Asign Student Container ---------------*/
+/* Wrapper */
+.asign_student_container {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+/* Card */
+.asign_student_container .card {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading */
+.asign_student_container .card h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 1.4rem;
+}
+
+/* Error message */
+.asign_student_container .card p {
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+/* Dropdowns */
+.asign_student_container .dropdown {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: border 0.3s, box-shadow 0.3s;
 }
 
-li:hover {
-  color: #cb8112;
-} */
+.asign_student_container .dropdown:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.3);
+}
+
+/* Button */
+.asign_student_container button {
+  margin-top: 15px;
+  padding: 12px 16px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+}
+
+.asign_student_container button:hover {
+  background: #2980b9;
+}
+
+/*---------------- Student Course List --------------*/
+/* Wrapper */
+.student_course_list {
+  padding: 30px 150px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+}
+
+/* Heading */
+.student_course_list h2 {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+/* Error message */
+.student_course_list p {
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+/* Table styling */
+.student_course_list table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.student_course_list th,
+.student_course_list td {
+  text-align: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.student_course_list th {
+  background: #50657b;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.student_course_list tr:hover {
+  background: #f1f7ff;
+}
+
+/* Course tags */
+.student_course_list td span {
+  display: inline-block;
+  background: #ecf0f1;
+  padding: 6px 10px;
+  margin: 4px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* Remove button */
+.student_course_list td span button {
+  margin-left: 6px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  background: transparent;
+  color: #e74c3c;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.student_course_list td span button:hover {
+  color: #c0392b;
+}
+
+
+/*--------------- Create Quizzes ---------------- */
+/* Main container */
+.create_quiz_container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.create_quiz_container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #2c3e50;
+}
+
+/* Error text */
+.create_quiz_container p {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Labels */
+.create_quiz_container label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: bold;
+  color: #34495e;
+}
+
+/* Inputs and selects */
+.create_quiz_container input,
+.create_quiz_container select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.create_quiz_container input:focus,
+.create_quiz_container select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.3);
+}
+
+/* Each quiz block */
+.quiz-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-form hr {
+  margin-top: 15px;
+  border: 0;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+/* Buttons */
+.create_quiz_container button {
+  padding: 12px 16px;
+  margin: 10px 5px 0 0;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Add quiz button */
+.create_quiz_container button[type="button"] {
+  background: #27ae60;
+  color: white;
+}
+
+.create_quiz_container button[type="button"]:hover {
+  background: #1e8449;
+}
+
+/* Save quizzes button */
+.create_quiz_container button[type="submit"] {
+  background: #3498db;
+  color: white;
+}
+
+.create_quiz_container button[type="submit"]:hover {
+  background: #2980b9;
+}
+
+/*----------------Course and quiz manager ----------------*/
+/* Container */
+.admin-course-manager {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.admin-course-manager h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #2c3e50;
+}
+
+.admin-course-manager h3 {
+  margin-top: 30px;
+  font-size: 1.4rem;
+  color: #34495e;
+}
+
+/* Error */
+.admin-course-manager p {
+  text-align: center;
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Tables */
+.admin-course-manager table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-course-manager th,
+.admin-course-manager td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-course-manager th {
+  background: #50657b;
+  color: #fff;
+  font-weight: bold;
+}
+
+.admin-course-manager tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Inputs for editing */
+.admin-course-manager input[type="text"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 95%;
+  font-size: 0.95rem;
+}
+
+/* Buttons */
+.admin-course-manager button {
+  padding: 8px 12px;
+  margin: 3px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+/* Primary */
+.admin-course-manager button:not([style]) {
+  background: #3498db;
+  color: white;
+}
+
+.admin-course-manager button:not([style]):hover {
+  background: #2980b9;
+}
+
+/* Danger (Delete) */
+.admin-course-manager button[style*="white"] {
+  background: #e74c3c;
+  color: white;
+}
+
+.admin-course-manager button[style*="white"]:hover {
+  background: #c0392b;
+}
+
+/* Secondary (Cancel) */
+.admin-course-manager button:contains("Cancel") {
+  background: #95a5a6;
+  color: white;
+}
+
+.admin-course-manager button:contains("Cancel"):hover {
+  background: #7f8c8d;
+}
+
+/*-------------- Student Score Container --------------*/
+.student_scores {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 25px 150px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Heading */
+.student_scores h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #2c3e50;
+}
+
+/* Error message */
+.student_scores p {
+  text-align: center;
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Table styling */
+.student_scores table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.student_scores th,
+.student_scores td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.student_scores th {
+  background: #50657b;
+  color: #fff;
+  font-weight: bold;
+}
+
+.student_scores tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Highlight top scorers */
+.student_scores td:last-child {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.student_scores tr:first-child td:last-child {
+  color: #27ae60; /* green for top scorer */
+}
+
+

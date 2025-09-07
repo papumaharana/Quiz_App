@@ -46,7 +46,7 @@ export default function AssignStudentCourse() {
 
   return (
 
-    <div className="container">
+    <div className="asign_student_container">
       <div className="card">
       <h2>Assign Student to Course</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}

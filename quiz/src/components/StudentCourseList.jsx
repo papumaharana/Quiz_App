@@ -35,7 +35,7 @@ export default function StudentCourseList() {
   };
 
   return (
-    <div className="student-course-list">
+    <div className="student_course_list">
       <h2>Students and Assigned Courses</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <table border="1" cellPadding="8">
