@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./css/AdminLogin.css";
 
 function AdminLogin({ onAdminLogin }) {
   const [email, setEmail] = useState("");

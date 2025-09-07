@@ -1,9 +1,17 @@
 
 
+result = []
 
-def add(x):
-    if x:
-        return "hii"
-    return "hello"
+for i in range(1, 4):
+    result.append({
+            "id": "student.id",
+            "name": "student.name",
+            "email": "student.email",
+            "score": "student.score"
+        })
+    
+print(result)
 
-print(add(False))
+print(len(result))
+
+print(result[0]['name'])

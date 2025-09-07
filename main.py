@@ -383,7 +383,7 @@ def submit_answer(student_id: int, course_id: int, quiz_id: int, data: dict = Bo
     db.commit()
     return {"message": "Answer saved"}
 
-
+# Respected score of student in perticular course:
 @app.get("/student_score/{student_id}/{course_id}")
 def get_student_score(student_id: int, course_id: int, db: Session = Depends(get_db)):
     answers = db.query(AttendAndAnswer).filter(
@@ -398,6 +398,7 @@ def get_student_score(student_id: int, course_id: int, db: Session = Depends(get
     correct = sum(1 for ans in answers if ans.answered_option == ans.correct_option)
     percentage = round((correct / total) * 100, 2)
     return {"score": percentage}
+
 
 @app.get("/total_score/{student_id}")
 def get_total_score(student_id: int, db: Session = Depends(get_db)):

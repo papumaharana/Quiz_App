@@ -1,12 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import ViewCourses from "./ViewCourses";
-import ViewQuizzes from "./ViewQuizzes";
-import ViewStudents from "./ViewStudents";
+import CreateCourse from "./CreateCourse";
+import AssignStudentCourse from "./AsignStudent";
+import StudentCourseList from "./StudentCourseList";
+import StudentScores from "./StudentScores";
+import "./css/Dashboard.css";
 
 function Dashboard({ onAdminLogout }) {
   const navigate = useNavigate();
-  const [view, setView] = useState("")
+  const [createCourse, setCreateCourse] = useState(true);
+  const [assignStudentCourse, setAssignStudentCourse] = useState(false);
+  const [studentCourseList, setStudentCourseList] = useState(false);
+  const [studentScores, setStudentScores] = useState(false);
+
 
   const handleLogout = () => {
     onAdminLogout();
@@ -16,14 +22,28 @@ function Dashboard({ onAdminLogout }) {
 
 
   const handleCourses = () => {
-    navigate("/create_courses");
+    setCreateCourse(true);
+    setAssignStudentCourse(false);
+    setStudentCourseList(false);
+    setStudentScores(false);
   };
   const handleStudent = () => {
-    navigate("/asign_student");
+    setCreateCourse(false);
+    setAssignStudentCourse(true);
+    setStudentCourseList(false);
+    setStudentScores(false);
   };
-  
   const handleStudentCourse = () => {
-    navigate("/student_course_list");
+    setCreateCourse(false);
+    setAssignStudentCourse(false);
+    setStudentCourseList(true);
+    setStudentScores(false);
+  };
+  const handleStudentScore = () => {
+    setCreateCourse(false);
+    setAssignStudentCourse(false);
+    setStudentCourseList(false);
+    setStudentScores(true);
   };
   const handleQuiz = () => {
     navigate("/create_quiz");
@@ -37,37 +57,29 @@ function Dashboard({ onAdminLogout }) {
   return (
     <div className="dashboard">
       <nav className="navbar">
-        <h1 className="logo">Admin Dashboard</h1>
+        <h1 className="logo">Admin</h1>
         <ul className="nav-links">
           <li onClick={handleCourses}>Create courses</li>
           <li onClick={handleStudent}>Assign student with courses</li>
           <li onClick={handleStudentCourse}>Students Course List</li>
           <li onClick={handleQuiz}>Create quizzes</li>
           <li onClick={handleCourseQuizManager}>Manage course and quiz</li>
+          <li onClick={handleStudentScore}>Student Scores</li>
           <li onClick={handleLogout}>Logout</li>
         </ul>
       </nav>
       <div className="dashboard-content">
         <h2>Welcome, Admin!</h2>
-        <p>This is your dashboard route.</p>
+        <p>Select an option from the menu to get started.</p>
       </div>
 
-      <div >
-        
-          <div>
-            <h3>Show :</h3>
-            <select value={view} onChange={(e) => setView(e.target.value)}>
-              <option value="">-- Select --</option>
-              <option value="student">Student</option>
-              <option value="courses">Courses</option>
-              <option value="quiz">Quizzes</option>
-            </select>
-          </div><br/>
-        
 
-        {view === "student" && <ViewStudents />}
-        {view === "courses" && <ViewCourses />}
-        {view === "quiz" && <ViewQuizzes />}
+
+      <div className="container">
+        {createCourse && <CreateCourse />}
+        {assignStudentCourse && <AssignStudentCourse />} 
+        {studentCourseList && <StudentCourseList />} 
+        {studentScores && <StudentScores />} 
       </div>
 
     </div>

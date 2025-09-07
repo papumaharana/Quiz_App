@@ -1,12 +1,17 @@
-/* #root {
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+}
+
+#root {
   max-width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
+}
 
 
-.card {
+/* .card {
   padding: 2em;
 }
 
@@ -39,7 +44,7 @@
   border-radius: 6px;
 }
 
-/* Forms */
+
 .form {
   display: flex;
   flex-direction: column;
@@ -94,4 +99,4 @@ li {
 
 li:hover {
   color: #cb8112;
-}
+} */
