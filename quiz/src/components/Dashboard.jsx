@@ -12,13 +12,10 @@ function Dashboard({ onAdminLogout }) {
   const [studentCourseList, setStudentCourseList] = useState(false);
   const [studentScores, setStudentScores] = useState(false);
 
-
   const handleLogout = () => {
     onAdminLogout();
     navigate("/");
   };
-
-
 
   const handleCourses = () => {
     setCreateCourse(true);
@@ -26,32 +23,39 @@ function Dashboard({ onAdminLogout }) {
     setStudentCourseList(false);
     setStudentScores(false);
   };
+
   const handleStudent = () => {
     setCreateCourse(false);
     setAssignStudentCourse(true);
     setStudentCourseList(false);
     setStudentScores(false);
   };
+
   const handleStudentCourse = () => {
     setCreateCourse(false);
     setAssignStudentCourse(false);
     setStudentCourseList(true);
     setStudentScores(false);
   };
+
   const handleStudentScore = () => {
     setCreateCourse(false);
     setAssignStudentCourse(false);
     setStudentCourseList(false);
     setStudentScores(true);
   };
+
   const handleQuiz = () => {
     navigate("/create_quiz");
   };
+
   const handleCourseQuizManager = () => {
     navigate("/course_quiz_manager");
   };
 
-
+  const handleResults = () => {
+    navigate("/results");
+  };
 
   return (
     <div className="admin_dashboard">
@@ -61,22 +65,53 @@ function Dashboard({ onAdminLogout }) {
           <li onClick={handleCourses}>Create courses</li>
           <li onClick={handleQuiz}>Create quizzes</li>
           <li onClick={handleStudent}>Assign student</li>
-          <li onClick={handleCourseQuizManager}>Manage course and quiz</li>
-          <li onClick={handleStudentCourse}>Students List</li>
-          <li onClick={handleStudentScore}>Student Scores</li>
+
+          {/* ✅ Fixed Manage Dropdown */}
+          <li>
+            <select
+              defaultValue=""
+              onChange={(e) => {
+                if (e.target.value === "manageCourseQuiz") handleCourseQuizManager();
+                if (e.target.value === "studentList") handleStudentCourse();
+              }}
+            >
+              <option value="" disabled>
+                Manage
+              </option>
+              <option value="manageCourseQuiz">Manage course and quiz</option>
+              <option value="studentList">Students List</option>
+            </select>
+          </li>
+
+          {/* ✅ Fixed Results Dropdown */}
+          <li>
+            <select
+              defaultValue=""
+              onChange={(e) => {
+                if (e.target.value === "studentScores") handleStudentScore();
+                if (e.target.value === "answerSheets") handleResults();
+              }}
+            >
+              <option value="" disabled>
+                Results
+              </option>
+              <option value="studentScores">Student Scores</option>
+              <option value="answerSheets">Answer sheets</option>
+            </select>
+          </li>
+
           <li onClick={handleLogout}>Logout</li>
         </ul>
       </nav>
+
       <div className="admin_dashboard-content">
         <h2>Welcome, Admin!</h2>
         <p>Select an option from the menu to get started.</p>
 
-
-          {createCourse && <CreateCourse />}
-          {assignStudentCourse && <AssignStudentCourse />}
-          {studentCourseList && <StudentCourseList />}
-          {studentScores && <StudentScores />}
-
+        {createCourse && <CreateCourse />}
+        {assignStudentCourse && <AssignStudentCourse />}
+        {studentCourseList && <StudentCourseList />}
+        {studentScores && <StudentScores />}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ body {
   max-width: 100%;
 }
 
-/* Role selector styles */
+/*---------------- Role selector styles ---------------*/
 .role_container {
   display: flex;
   justify-content: center;
@@ -31,15 +31,29 @@ body {
   margin-bottom: 15px;
 }
 
-.role_container .dropdown {
+/* Dropdown styling */
+.dropdown {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  font-size: 1rem;
+  margin-top: 10px;
+  cursor: pointer;
+  background: #f9f9f9;
+  transition: 0.3s ease;
 }
 
-/* Stusent Login form */
+/* Hover / focus */
+.dropdown:hover,
+.dropdown:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.5);
+  outline: none;
+}
+
+
+/*------------ Stusent Login form -----------------*/
 .student_login_card {
   width: 350px;
   padding: 20px;
@@ -202,6 +216,40 @@ body {
   color: #f1c40f;
 }
 
+/* select dropdowns */
+.nav-links select {
+  background: #2c3e50;       
+  color: white;             
+  border: none;              
+  border-radius: 6px;       
+  font-size: 0.95rem;        
+  cursor: pointer;
+  outline: none;            
+  transition: 0.3s ease;
+}
+
+.nav-links select:hover {
+  background: #34495e;
+  color: #f1c40f;
+}
+
+/* Dropdown options */
+.nav-links select option {
+  background: #2c3e50; 
+  color: white;        
+  padding: 6px 10px;
+  
+}
+
+/* Optional: highlight hovered option in dropdown */
+.nav-links select option:hover {
+  background: #34495e;
+  color: #f1c40f;
+  cursor: pointer;
+}
+
+
+
 /*---------------------- Student dashboard------------------*/
 .student_name{
   text-align: center;
@@ -285,7 +333,7 @@ body {
 }
 
 /* Total score */
-.student_dashboard-content h3:last-of-type {
+.student_dashboard-content h2 {
   margin-top: 25px;
   font-size: 1.2rem;
   color: #27ae60;
@@ -542,7 +590,7 @@ body {
   padding: 30px 150px;
   background: #f8f9fa;
   border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   margin: 20px;
 }
 
@@ -894,3 +942,85 @@ body {
 }
 
 
+/*---------------Show Answers-------------*/
+/* ResultContainer.css */
+.result_container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.result_container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.result_container label {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.result_container select {
+  padding: 8px 12px;
+  margin: 10px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.result_container h3 {
+  margin: 20px 0 10px 0;
+  color: #444;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 5px;
+}
+
+.result_container input[type="radio"] {
+  margin-right: 8px;
+}
+
+.result_container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 15px;
+}
+
+.result_container th,
+.result_container td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.result_container th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #333;
+}
+
+.result_container tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.result_container tr:hover {
+  background-color: #f1f1f1;
+}
+
+.result_container td span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.result_container td span:nth-child(1) {
+  color: green; /* ✔ */
+}
+
+.result_container td span:nth-child(2) {
+  color: red; /* ✘ */
+}

@@ -7,6 +7,7 @@ import CourseQuizManager from "./components/CourseQuizManager";
 import StudentDashboard from "./components/StudentDashboard";
 import OtpVerification from "./components/OtpVerification";
 import AttendQuiz from "./components/AttendQuiz";
+import ShowAnswers from "./components/ShowAnswers";
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import './App.css'
@@ -53,6 +54,7 @@ export default function App() {
         <Route path="/view_quizzes" element={admin ? <AssignStudentCourse /> : <Navigate to="/" />} />
         <Route path="/create_quiz" element={admin ? <CreateQuiz /> : <Navigate to="/" />} />
         <Route path="/course_quiz_manager" element={admin ? <CourseQuizManager /> : <Navigate to="/" />} />
+        <Route path="/results" element={admin ? <ShowAnswers /> : <Navigate to="/" />} />
 
 
         <Route path="/verify_otp" element={<OtpVerification onStudentLogin={handleStudentLogin} />} />

@@ -223,7 +223,7 @@ def add_quizzes(course_id: int, payload: QuizPayload, db: Session = Depends(get_
         db.add(new_quiz)
 
     db.commit()
-    return {"message": f"{len(payload.quizzes)} quizzez added to {course.title}"}
+    return {"message": f"{len(payload.quizzes)} quizzes added to {course.title}"}
 
 @app.get("/courses/{course_id}/quizzes/")
 def get_course_quizzes(course_id: int, db: Session = Depends(get_db)):
@@ -257,26 +257,6 @@ def delete_course(course_id: int, db: Session = Depends(get_db)):
 
 
 # ---------- QUIZ ROUTES ----------
-# @app.post("/courses/{course_id}/quizzes/")
-# def add_quiz(course_id: int, data: dict, db: Session = Depends(get_db)):
-#     course = db.query(Course).filter(Course.id == course_id).first()
-#     if not course:
-#         raise HTTPException(status_code=404, detail="Course not found")
-
-#     quiz = Quiz(
-#         title=data["title"],
-#         option_1=data["option_1"],
-#         option_2=data["option_2"],
-#         option_3=data["option_3"],
-#         option_4=data["option_4"],
-#         answer=data["answer"],
-#         course_id=course_id,
-#     )
-#     db.add(quiz)
-#     db.commit()
-#     db.refresh(quiz)
-#     return quiz
-
 
 @app.put("/quizzes/{quiz_id}/")
 def update_quiz(quiz_id: int, data: dict, db: Session = Depends(get_db)):
@@ -400,6 +380,8 @@ def get_student_score(student_id: int, course_id: int, db: Session = Depends(get
     return {"score": percentage}
 
 
+# ---------------Score section:-----------------
+# Total score of student:
 @app.get("/total_score/{student_id}")
 def get_total_score(student_id: int, db: Session = Depends(get_db)):
     student_answers = db.query(AttendAndAnswer).filter_by(student_id=student_id).all()
@@ -419,3 +401,43 @@ def get_total_score(student_id: int, db: Session = Depends(get_db)):
     db_student.score = total_score
     db.commit()
     return {"total_score": round(total_score, 2)}
+
+# Get quizzes of perticular course with student answers:
+@app.get("/students/{student_id}/courses/{course_id}/quizzes")
+def get_student_course_quizzes(student_id: int, course_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        return {"message": "Student not found"}
+
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        return {"message": "Course not found"}
+
+    # Get quizzes for the course
+    quizzes = db.query(Quiz).filter(Quiz.course_id == course_id).all()
+
+    # Get student answers for this course
+    answers = (
+        db.query(AttendAndAnswer)
+        .filter(AttendAndAnswer.student_id == student_id, AttendAndAnswer.course_id == course_id)
+        .all()
+    )
+    # Map answers by quiz_id for quick lookup
+    answers_map = {ans.quiz_id: ans for ans in answers}
+
+    # Build response
+    result = []
+    for quiz in quizzes:
+        ans = answers_map.get(quiz.id)
+        result.append({
+            "id": quiz.id,
+            "title": quiz.title,
+            "option_1": quiz.option_1,
+            "option_2": quiz.option_2,
+            "option_3": quiz.option_3,
+            "option_4": quiz.option_4,
+            "answer": quiz.answer,
+            "answered_option": ans.answered_option if ans else None,
+        })
+
+    return {"course_id": course.id, "course_title": course.title, "quizzes": result}

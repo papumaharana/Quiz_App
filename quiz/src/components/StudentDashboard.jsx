@@ -103,9 +103,9 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
         <table>
           <thead>
             <tr>
-              <th>Course Title</th>
-              <th>Quiz</th>
+              <th>Course</th>
               <th>Score</th>
+              <th>Quiz</th>
             </tr>
           </thead>
           <tbody>
@@ -136,7 +136,7 @@ function StudentDashboard({ onStudentLogout, student: studentProp }) {
           </tbody>
         </table>
         {totalScore > 0 && (
-          <h3 style={{ marginTop: '20px' }}>Total Score : {totalScore}%</h3>
+          <h2 style={{ marginTop: '20px' }}>Total Score : {totalScore}%</h2>
         )}
       </div>
     </>
