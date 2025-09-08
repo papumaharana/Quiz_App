@@ -65,36 +65,20 @@ function Dashboard({ onAdminLogout }) {
           <li onClick={handleCourses}>Create courses</li>
           <li onClick={handleQuiz}>Create quizzes</li>
           <li onClick={handleStudent}>Assign student</li>
-
-          {/* ✅ Fixed Manage Dropdown */}
           <li>
-            <select
-              defaultValue=""
-              onChange={(e) => {
-                if (e.target.value === "manageCourseQuiz") handleCourseQuizManager();
+            <select defaultValue="" onChange={(e) => {if (e.target.value === "manageCourseQuiz") handleCourseQuizManager();
                 if (e.target.value === "studentList") handleStudentCourse();
-              }}
-            >
-              <option value="" disabled>
-                Manage
-              </option>
+              }}>
+              <option value="" disabled>Manage</option>
               <option value="manageCourseQuiz">Manage course and quiz</option>
               <option value="studentList">Students List</option>
             </select>
           </li>
-
-          {/* ✅ Fixed Results Dropdown */}
           <li>
-            <select
-              defaultValue=""
-              onChange={(e) => {
-                if (e.target.value === "studentScores") handleStudentScore();
+            <select defaultValue="" onChange={(e) => {if (e.target.value === "studentScores") handleStudentScore();
                 if (e.target.value === "answerSheets") handleResults();
-              }}
-            >
-              <option value="" disabled>
-                Results
-              </option>
+              }}>
+              <option value="" disabled>Results</option>
               <option value="studentScores">Student Scores</option>
               <option value="answerSheets">Answer sheets</option>
             </select>

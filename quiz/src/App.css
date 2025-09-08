@@ -218,7 +218,8 @@ body {
 
 /* select dropdowns */
 .nav-links select {
-  background: #2c3e50;       
+  background: #2c3e50;
+  width: 90px;       
   color: white;             
   border: none;              
   border-radius: 6px;       
